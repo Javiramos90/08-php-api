@@ -28,25 +28,59 @@ class Usuario
     {
         $data = ['nombre' => $nombre, 'email' => $email];
         $dataSaneados = Validator::sanear($data);
-        $errors = Validator::validar($dataSaneados);
+        $errors = Validator::validarUsuario($dataSaneados);
 
-        if(!empty($errors))
-        {
+        if (!empty($errors)) {
             // throw new ValidatorException($errors);
             $errores = new ValidatorException($errors);
             return $errores->getErrors();
         }
         $nombreSaneado = $dataSaneados['nombre'];
         $emailSaneado = $dataSaneados['email'];
+        $idSaneado = $dataSaneados['id'];
+
+        $result = $this->db->query("SELECT id FROM usuario WHERE email = ?", [$emailSaneado]);
+        if ($result->num_rows > 0) {
+            return "El email ya existe";
+        }
         //lanzamos la consulta
-        $this->db->query("INSERT INTO  usuario (nombre, email) VALUES (?, ?)",[$nombreSaneado, $emailSaneado]);
+        $this->db->query("INSERT INTO  usuario (nombre, email) VALUES (?, ?)", [$nombreSaneado, $emailSaneado]);
 
         return $this->db->query("SELECT LAST_INSERT_ID() as id")->fetch_assoc()['id'];
 
     }
 
-    
+    public function update($id, $nombre, $email)
+    {
+        $data = ['id' => $id, 'nombre' => $nombre, 'email' => $email];
+        $dataSaneados = Validator::sanear($data);
+        $errors = Validator::validarUsuario($dataSaneados);
+
+        if (!empty($errors)) {
+            // throw new ValidatorException($errors);
+            $errores = new ValidatorException($errors);
+            return $errores->getErrors();
+        }
+
+        $nombreSaneado = $dataSaneados['nombre'];
+        $emailSaneado = $dataSaneados['email'];
+        $idSaneado = $dataSaneados['id'];
+
+        $result = $this->db->query("SELECT id FROM usuario WHERE email = ? AND id != ? ", [$emailSaneado, $idSaneado]);
+
+        if ($result->num_rows > 0) {
+            return "El email ya esta en uso por otro usuario";
+        }
+        $this->db->query("UPDATE usuario SET nombre = ?, email = ? WHERE id = ?", [$nombreSaneado, $emailSaneado, $idSaneado]);
+        return $this->db->query("SELECT ROW_COUNT() as affected")->fetch_assoc()['affected'];
 
 
+    }
 
+    public function delete($id): mixed
+    {
+        $this->db->query('DELETE FROM usuario WHERE id = ?', [$id]);
+        return $this->db->query("SELECT ROW_COUNT() as affected")->fetch_assoc()['affected'];
+
+    }
 }
