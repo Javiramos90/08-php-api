@@ -1,0 +1,62 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+}
+h2{
+    text-align: center;
+    
+}
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td{
+    border: 1px solid rgb(173, 173, 173);
+    padding: 8px;
+    text-align: left;
+}
+.td-btn{
+    display: flex;
+    justify-content: space-around;
+
+}
+th{
+    background-color: rgb(187, 235, 235);
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+input[type="text"], input[type="email"]{
+    padding: 5px;
+    width: calc(100% -12px);
+    box-sizing: border-box;
+}
+button{
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.edicion{
+    display:none;
+}
+.td-btn .edicion{
+    background-color: rgba(3, 58, 3, 0.932);
+    color: white;
+}
+.error{
+    color: red;
+    margin-top: 5px;
+}

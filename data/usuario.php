@@ -31,13 +31,21 @@ class Usuario
         $errors = Validator::validarUsuario($dataSaneados);
 
         if (!empty($errors)) {
-            // throw new ValidatorException($errors);
-            $errores = new ValidatorException($errors);
-            return $errores->getErrors();
+            $erroresString = '';
+            if (!empty($errors['nombre'])){
+                $erroresString .= $errors['nombre'] . ' ';
+            }
+            if (!empty($errors['email'])){
+                $erroresString .= $errors['email'] . ' ';
+            }
+            
+            return $erroresString;
+                // throw new ValidatorException($errors);
+                // $errores = new ValidatorException($errors);
+                // return $errores->getErrors();
         }
         $nombreSaneado = $dataSaneados['nombre'];
         $emailSaneado = $dataSaneados['email'];
-        $idSaneado = $dataSaneados['id'];
 
         $result = $this->db->query("SELECT id FROM usuario WHERE email = ?", [$emailSaneado]);
         if ($result->num_rows > 0) {
@@ -57,11 +65,19 @@ class Usuario
         $errors = Validator::validarUsuario($dataSaneados);
 
         if (!empty($errors)) {
-            // throw new ValidatorException($errors);
-            $errores = new ValidatorException($errors);
-            return $errores->getErrors();
+            $erroresString = '';
+            if (!empty($errors['nombre'])){
+                $erroresString .= $errors['nombre'] . ' ';
+            }
+            if (!empty($errors['email'])){
+                $erroresString .= $errors['email'] . ' ';
+            }
+            
+            return $erroresString;
+                // throw new ValidatorException($errors);
+                // $errores = new ValidatorException($errors);
+                // return $errores->getErrors();
         }
-
         $nombreSaneado = $dataSaneados['nombre'];
         $emailSaneado = $dataSaneados['email'];
         $idSaneado = $dataSaneados['id'];
