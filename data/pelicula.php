@@ -31,9 +31,7 @@ class Pelicula
         $errors = Validator::validarPelicula($dataSaneados);
 
         if (!empty($errors)) {
-            // throw new ValidatorException($errors);
-            $errores = new ValidatorException($errors);
-            return $errores->getErrors();
+           return $errors;
         }
         $tituloSaneado = $dataSaneados['titulo'];
         $precioSaneado = $dataSaneados['precio'];
@@ -41,7 +39,7 @@ class Pelicula
 
         $resultado = $this->db->query("SELECT id FROM director WHERE id = ?", [$id_directorSaneado]);
         if ($resultado->num_rows == 0) {
-            return "No existe ningun director";
+            return ["director" => "No existe ningun director"];
         }
         //lanzamos la consulta
         $this->db->query("INSERT INTO  pelicula (titulo, precio, id_director) VALUES (?, ?, ?)", [$tituloSaneado, $precioSaneado, $id_directorSaneado]);
@@ -56,9 +54,7 @@ class Pelicula
         $errors = Validator::validarPelicula($dataSaneados);
 
         if (!empty($errors)) {
-            // throw new ValidatorException($errors);
-            $errores = new ValidatorException($errors);
-            return $errores->getErrors();
+            return $errors;
         }
 
         $tituloSaneado = $dataSaneados['titulo'];
@@ -68,7 +64,7 @@ class Pelicula
     
         $resultado = $this->db->query("SELECT id FROM director WHERE id = ?", [$id_directorSaneado]);
         if ($resultado->num_rows == 0) {
-            return "No existe ningun director";
+            return ["director" => "No existe ningun director"];
         }
 
         $this->db->query("UPDATE pelicula SET titulo = ?, precio = ?, id_director = ? WHERE id = ?", [$tituloSaneado, $precioSaneado, $id_directorSaneado,$idSaneado]);

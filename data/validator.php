@@ -89,7 +89,7 @@ class Validator
         if(!isset($data['biografia']))  
         {
             $errors['biografia'] = 'La biografia es necesaria';
-        }elseif(strlen($data['biografia']) > 10000){
+        }elseif(strlen($data['biografia']) > 50000){
         
             $errors['biografia'] = 'La biografia es muy extensa';
         }
